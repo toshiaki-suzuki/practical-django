@@ -4,13 +4,13 @@ from snippets.views import snippet_new, snippet_edit, snippet_detail
 
 
 class TopPageViewTestCase(TestCase):
-    def test_top_returns_200(self):
+    def test_top_returns_200_and_expected_title(self):
         response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Djangoスニペット', status_code=200)
 
-    def test_top_returns_expected_content(self):
+    def test_top_returns_expected_template(self):
         response = self.client.get('/')
-        self.assertEqual(response.content, b'Hello World')
+        self.assertTemplateUsed(response, 'snippets/top.html')
 
 
 class CreateSnnipetTest(TestCase):
