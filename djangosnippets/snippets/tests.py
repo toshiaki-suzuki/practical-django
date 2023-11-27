@@ -1,6 +1,38 @@
-from django.test import TestCase
+from django.contrib.auth import get_user_model
+from django.test import TestCase, RequestFactory
 from django.urls import resolve
-from snippets.views import snippet_new, snippet_edit, snippet_detail
+
+from snippets.models import Snippet
+from snippets.views import snippet_new, snippet_edit, snippet_detail, top
+
+UserModel = get_user_model()
+
+
+class TopPageRenderShinppetTest(TestCase):
+    def setUp(self):
+        self.user = UserModel.objects.create(
+            username='test_user',
+            email='test@example.com',
+            password='top_secret_pass0001'
+        )
+        self.Shinppet = Snippet.objects.create(
+            title='title1',
+            code="print('hello world')",
+            description='description1',
+            created_by=self.user,
+        )
+
+    def test_should_return_snippet_title(self):
+        request = RequestFactory().get('/')
+        request.user = self.user
+        response = top(request)
+        self.assertContains(response, self.Shinppet.title)
+
+    def test_should_return_user_name(self):
+        request = RequestFactory().get('/')
+        request.user = self.user
+        response = top(request)
+        self.assertContains(response, self.user.username)
 
 
 class TopPageViewTestCase(TestCase):
