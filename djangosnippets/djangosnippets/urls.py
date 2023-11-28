@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
+
 from snippets.views import top
 
 urlpatterns = [
     path('', top, name='top'),
-    path('snippet/', include('snippets.urls')),
+    path('snippets/', include('snippets.urls')),
     path('admin/', admin.site.urls)
 ]

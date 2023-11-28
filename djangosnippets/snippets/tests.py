@@ -47,13 +47,13 @@ class TopPageRenderShinppetTest(TestCase):
 
 class CreateSnnipetTest(TestCase):
     def test_should_resolve_snippet_new(self):
-        found = resolve('/snippet/new/')
+        found = resolve('/snippets/new/')
         self.assertEqual(snippet_new, found.func)
 
 
 class EditSnnipetTest(TestCase):
     def test_should_resolve_snippet_edit(self):
-        found = resolve('/snippet/1/edit/')
+        found = resolve('/snippets/1/edit/')
         self.assertEqual(snippet_edit, found.func)
 
 
