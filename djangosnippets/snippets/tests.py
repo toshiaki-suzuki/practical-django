@@ -8,6 +8,16 @@ from snippets.views import snippet_new, snippet_edit, snippet_detail, top
 UserModel = get_user_model()
 
 
+class TopPageViewTestCase(TestCase):
+    def test_top_returns_200_and_expected_title(self):
+        response = self.client.get('/')
+        self.assertContains(response, 'Djangoスニペット', status_code=200)
+
+    def test_top_returns_expected_template(self):
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'snippets/top.html')
+
+
 class TopPageRenderShinppetTest(TestCase):
     def setUp(self):
         self.user = UserModel.objects.create(
@@ -33,16 +43,6 @@ class TopPageRenderShinppetTest(TestCase):
         request.user = self.user
         response = top(request)
         self.assertContains(response, self.user.username)
-
-
-class TopPageViewTestCase(TestCase):
-    def test_top_returns_200_and_expected_title(self):
-        response = self.client.get('/')
-        self.assertContains(response, 'Djangoスニペット', status_code=200)
-
-    def test_top_returns_expected_template(self):
-        response = self.client.get('/')
-        self.assertTemplateUsed(response, 'snippets/top.html')
 
 
 class CreateSnnipetTest(TestCase):
